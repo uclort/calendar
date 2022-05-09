@@ -1,6 +1,6 @@
 ## [calendar.ics](https://github.com/uclort/calendar/blob/main/calendar.ics)
 
-> 包括农历、公历节日、公历节日(补充)、农历节日、农历节日(补充)
+> 包括农历、公历节日、公历节日(补充)、农历节日、农历节日(补充)、中国节气
 
 ## [lunar.js](https://github.com/uclort/calendar/blob/main/lunar.js)
 
@@ -21,6 +21,10 @@
 ## [lunarOtherFestivals.ics](https://github.com/uclort/calendar/blob/main/lunarOtherFestivals.ics)
 
 > 农历节日(补充)
+
+## [jieQi.ics](https://github.com/uclort/calendar/blob/main/jieQi.ics)
+
+> 中国节气
 
 
 
