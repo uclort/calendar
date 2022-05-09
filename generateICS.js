@@ -1,8 +1,8 @@
 const { SolarMonth } = require('./lunar.js')
 const fs = require('fs')
 
-const startYear = 2020
-const endYear = 2030
+const startYear = 2000
+const endYear = 2050
 
 let result = []
 result.push(generateICSHeader())
@@ -25,7 +25,7 @@ dateGroup.forEach(date => {
     // 公历当前日期的节日
     let solarFestivals = day.getFestivals()
     // 公里当前日期的其他节日
-    let solarOtherFestivals = day.getFestivals()
+    let solarOtherFestivals = day.getOtherFestivals()
     // 公历当前日期对应的农历
     let lunar = day.getLunar()
     // 农历当前月对应的中文
@@ -35,9 +35,11 @@ dateGroup.forEach(date => {
     // 农历当前日期的节日
     let lunarFestivals = lunar.getFestivals()
     // 农历当前日期的其他节日
-    let lunarOtherFestivals = lunar.getFestivals()
+    let lunarOtherFestivals = lunar.getOtherFestivals()
     // 农历当前日期
     let lunarDate = `${monthChinese}月${dayChinese}`
+    // 节气
+    let lunarJieQi = lunar.getJieQi()
     // console.log(`${solarDate} -> ${lunarDate}`)
     // console.log("公历节日 -> " + solarFestivals)
     // console.log("公历其他节日 -> " + solarOtherFestivals)
@@ -57,6 +59,9 @@ dateGroup.forEach(date => {
     lunarOtherFestivals.forEach(festival => {
       result.push(generateICSItem(solarDate, festival))
     })
+    if (!!lunarJieQi) {
+      result.push(generateICSItem(solarDate, lunarJieQi))
+    }
   }
 })
 result.push(generateICSFooter())
