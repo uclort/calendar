@@ -1,5 +1,27 @@
+// 配置项
+const config = {
+  // 生成农历
+  lunar: false,
+  // 公历 返回节日的数组，包括元旦节、国庆节等，也包括母亲节、父亲节、感恩节、圣诞节等，有可能同一天有多个，也可能没有。
+  solarFestivals: false,
+  // 公历 返回其他纪念日的数组，例如世界抗癌日、香港回归纪念日等，有可能同一天有多个，也可能没有。
+  solarOtherFestivals: false,
+  // 返回常用节日的数组，包括春节、中秋、元宵等，有可能同一天有多个，也可能没有。
+  lunarFestivals: false,
+  // 返回其他传统节日的数组，包括寒衣节、下元节、祭灶日等，有可能同一天有多个，也可能没有。
+  lunarOtherFestivals: false,
+  // 返回二十四节气包括十二节（立春、惊蛰、清明、立夏、芒种、小暑、立秋、白露、寒露、立冬、大雪、小寒）和十二气（雨水、春分、谷雨、小满、夏至、大暑、处暑、秋分、霜降、小雪、冬至、大寒）
+  jieQi: true,
+}
+
+// ics 文件名
+const icsFileName = "jieQi"
+// ics 订阅名称
+const icsName = "农历节气"
+
 const { SolarMonth } = require('./lunar.js')
 const fs = require('fs')
+const { off } = require('process')
 
 const startYear = 2000
 const endYear = 2050
@@ -21,7 +43,6 @@ dateGroup.forEach(date => {
     let solarDay = day.getDay().toString().padStart(2, '0')
     // 公历当前日期
     let solarDate = `${solarYear}${solarMonth}${solarDay}`
-    console.log(solarDate)
     // 公历当前日期的节日
     let solarFestivals = day.getFestivals()
     // 公里当前日期的其他节日
@@ -46,21 +67,33 @@ dateGroup.forEach(date => {
     // console.log("农历节日 -> " + lunarFestivals)
     // console.log("农历其他节日 -> " + lunarOtherFestivals)
     // console.log("---------------------------------")
-    result.push(generateICSItem(solarDate, lunarDate))
-    solarFestivals.forEach(festival => {
-      result.push(generateICSItem(solarDate, festival))
-    })
-    solarOtherFestivals.forEach(festival => {
-      result.push(generateICSItem(solarDate, festival))
-    })
-    lunarFestivals.forEach(festival => {
-      result.push(generateICSItem(solarDate, festival))
-    })
-    lunarOtherFestivals.forEach(festival => {
-      result.push(generateICSItem(solarDate, festival))
-    })
-    if (!!lunarJieQi) {
-      result.push(generateICSItem(solarDate, lunarJieQi))
+    if (config.lunar) {
+      result.push(generateICSItem(solarDate, lunarDate))
+    }
+    if (config.solarFestivals) {
+      solarFestivals.forEach(festival => {
+        result.push(generateICSItem(solarDate, festival))
+      })
+    }
+    if (config.solarOtherFestivals) {
+      solarOtherFestivals.forEach(festival => {
+        result.push(generateICSItem(solarDate, festival))
+      })
+    }
+    if (config.lunarFestivals) {
+      lunarFestivals.forEach(festival => {
+        result.push(generateICSItem(solarDate, festival))
+      })
+    }
+    if (config.lunarOtherFestivals) {
+      lunarOtherFestivals.forEach(festival => {
+        result.push(generateICSItem(solarDate, festival))
+      })
+    }
+    if (config.jieQi) {
+      if (!!lunarJieQi) {
+        result.push(generateICSItem(solarDate, lunarJieQi))
+      }
     }
   }
 })
@@ -69,7 +102,7 @@ result.push(generateICSFooter())
 const resultString = result.join("\n")
 // console.log(resultString)
 
-fs.writeFile('./calendar.ics', resultString, err => {
+fs.writeFile(`./${icsFileName}.ics`, resultString, err => {
   if (err) {
     console.error(err)
     return
@@ -90,11 +123,11 @@ function getYearMonth() {
 function generateICSHeader() {
   return [
     "BEGIN:VCALENDAR",
-    "PRODID:中国节日",
+    `PRODID:${icsName}`,
     "VERSION:2.0",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
-    "X-WR-CALNAME:中国节日",
+    `X-WR-CALNAME:${icsName}`,
     "X-WR-TIMEZONE:Asia/Shanghai",
     "X-APPLE-LANGUAGE:zh",
     "X-APPLE-REGION:CN",
