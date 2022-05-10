@@ -3,9 +3,9 @@ const config = {
   // 生成农历
   lunar: false,
   // 公历 返回节日的数组，包括元旦节、国庆节等，也包括母亲节、父亲节、感恩节、圣诞节等，有可能同一天有多个，也可能没有。
-  solarFestivals: false,
+  solarFestivals: true,
   // 公历 返回其他纪念日的数组，例如世界抗癌日、香港回归纪念日等，有可能同一天有多个，也可能没有。
-  solarOtherFestivals: true,
+  solarOtherFestivals: false,
   // 返回常用节日的数组，包括春节、中秋、元宵等，有可能同一天有多个，也可能没有。
   lunarFestivals: false,
   // 返回其他传统节日的数组，包括寒衣节、下元节、祭灶日等，有可能同一天有多个，也可能没有。
@@ -15,9 +15,9 @@ const config = {
 }
 
 // ics 文件名
-const icsFileName = "solarOtherFestivals"
+const icsFileName = "solarFestivals"
 // ics 订阅名称
-const icsName = "公历节日(补充)"
+const icsName = "公历节日"
 
 const { SolarMonth } = require('./lunar.js')
 const fs = require('fs')
