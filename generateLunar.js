@@ -69,7 +69,6 @@ const configGroup = [
 
 const { SolarMonth } = require('./lunar.js')
 const fs = require('fs')
-// const { off } = require('process')
 
 const startYear = 2020
 const endYear = 2030
