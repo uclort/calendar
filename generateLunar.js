@@ -67,11 +67,11 @@ const configGroup = [
   },
 ]
 
-const { SolarMonth } = require('./lunar.js')
+const { SolarMonth } = require('./1.7.6/lunar.js')
 const fs = require('fs')
 
-const startYear = 2020
-const endYear = 2030
+const startYear = 2000
+const endYear = 2050
 
 configGroup.forEach(item => {
   begin(item.icsFileName, item.icsName, item.type)
